@@ -1,20 +1,28 @@
 {
-  "name": "firebase_photo_app",
+  "name": "group_photos",
   "version": "0.1.0",
+  "homepage": "https://jmtucker7.github.io/wedding_photos_collection_plate/",
   "private": true,
   "dependencies": {
-    "eslint": "^4.15.0",
+    "eslint": "^4.14.0",
     "eslint-config-standard-jsx": "^4.0.2",
     "eslint-plugin-react": "^7.5.1",
+    "faker": "^4.1.0",
+    "firebase": "^4.8.1",
+    "gh-pages": "^1.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "eslint src && react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint src",
+    "lint-fix": "eslint --fix src"
   },
   "devDependencies": {
     "eslint-config-standard": "^11.0.0-beta.0",
