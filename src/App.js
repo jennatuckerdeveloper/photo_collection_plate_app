@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import ProfilesPage from './Page.js'
+import ProfilesPage from './ProfilesPage.js'
 import LandingPage from './LandingPage.js'
 import LogInPage from './LogInPage.js'
 import SignUp from './SignUp.js'
@@ -10,11 +10,6 @@ const LANDING = 'landing'
 const LOG_IN = 'login'
 const SIGN_UP = 'signup'
 const PROFILES = 'profiles'
-
-// Routing should replace the pattern of using state to indicate the page in App's render.
-// So no more render () {
-//    if (this.state.userLocation === LANDING) {
-// ...
 
 class App extends Component {
   constructor (props) {
