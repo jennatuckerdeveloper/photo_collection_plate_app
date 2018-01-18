@@ -1,14 +1,20 @@
 import React, { Component } from 'react'
 import './App.css'
-import Page from './Page.js'
+import ProfilesPage from './Page.js'
 import LandingPage from './LandingPage.js'
 import LogInPage from './LogInPage.js'
+import SignUp from './SignUp.js'
 import firebase from './firebase.js'
 
 const LANDING = 'landing'
 const LOG_IN = 'login'
 const SIGN_UP = 'signup'
 const PROFILES = 'profiles'
+
+// Routing should replace the pattern of using state to indicate the page in App's render.
+// So no more render () {
+//    if (this.state.userLocation === LANDING) {
+// ...
 
 class App extends Component {
   constructor (props) {
@@ -26,7 +32,6 @@ class App extends Component {
     this.toLogIn = this.toLogIn.bind(this)
     this.toSignUp = this.toSignUp.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
     this.logIn = this.logIn.bind(this)
     this.setUser = this.setUser.bind(this)
     this.clearUser = this.clearUser.bind(this)
@@ -41,9 +46,9 @@ class App extends Component {
     let userUID
     const setUser = this.setUser
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(
-        firebase.auth().onAuthStateChanged(function (fbuser) {
-          if (fbuser) {
+      .then(() => {
+        firebase.auth().onAuthStateChanged((fbuser) => {
+            if (fbuser) {
             userUID = fbuser.uid
             setUser(userUID)
           } else {
@@ -51,10 +56,10 @@ class App extends Component {
             setUser(userUID)
           }
         })
-      )
+      })
       .catch(function (error) {
-        var errorCode = error.code
-        var errorMessage = error.message
+        const errorCode = error.code
+        const errorMessage = error.message
         console.log('catch ran on logIn', errorCode, errorMessage)
       })
   }
@@ -77,7 +82,7 @@ class App extends Component {
     this.setState({userLocation: SIGN_UP})
   }
 
-  handleChange (e) {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -95,7 +100,7 @@ class App extends Component {
           phone: this.state.phone,
           avatar: this.state.avatar
         }
-        const onComplete = function (error) {
+        const onComplete = (error) => {
           if (error) {
             console.log('Operation failed')
           } else {
@@ -104,20 +109,21 @@ class App extends Component {
         }
         itemsRef.child(response.uid).set(item, onComplete)
       })
-      .catch(function (error) {
-        var errorCode = error.code
-        var errorMessage = error.message
+      .catch((error) => {
+          const errorCode = error.code
+          const errorMessage = error.message
         console.log('catch ran', errorCode, errorMessage)
-      })
+        }
+      )
     let userUID
-    const setUser = this.setUser
-    firebase.auth().onAuthStateChanged(function (fbuser) {
-      if (fbuser) {
+    // const setUser = this.setUser // I think the arrow function does this.
+    firebase.auth().onAuthStateChanged((fbuser) => {
+        if (fbuser) {
         userUID = fbuser.uid
-        setUser(userUID)
+        this.setUser(userUID)
       } else {
         userUID = null
-        setUser(userUID)
+        this.setUser(userUID)
       }
     })
     this.setState({userLocation: PROFILES})
@@ -141,33 +147,18 @@ class App extends Component {
       )
     } else if (this.state.userLocation === SIGN_UP) {
       return (
-        <div id='signUp'>
-          <form id='signUpInputs' onSubmit={this.handleSubmit}>
-            <label htmlFor='firstName'>First name</label>
-            <input name='firstName' id='firstName' type='text' placeholder='Enter text' onChange={this.handleChange} />
-            <label htmlFor='lastName'>Last name</label>
-            <input name='lastName' id='lastName' type='text' placeholder='Enter text' onChange={this.handleChange} />
-            <label htmlFor='email'>Email</label>
-            <input name='email' id='email' type='text' placeholder='Enter text' onChange={this.handleChange} />
-            <label htmlFor='phone'>Phone</label>
-            <input name='phone' id='phone' type='text' placeholder='Enter text' onChange={this.handleChange} />
-            <label htmlFor='password' type='text'>Password</label>
-            <input name='password' id='password' type='text' placeholder='Enter password' onChange={this.handleChange} />
-            <label htmlFor='avatar'>Avatar</label>
-            <input name='avatar' id='avatar' type='text' placeholder='Try dropping a new image here or click to select file to upload.' onChange={this.handleChange} />
-            <button>Sign up</button>
-          </form>
-        </div>
+        <SignUp 
+          handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
+        />
       )
     } else if (this.state.userLocation === PROFILES) {
       return (
-        <div>
-          <Page
+          <ProfilesPage
             logIn={this.toLogIn}
             user={this.state.user}
             clearUser={this.clearUser}
           />
-        </div>
       )
     }
   }

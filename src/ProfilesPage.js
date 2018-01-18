@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import firebase from './firebase.js'
 import PageButtons from './PageButtons.js'
 
-export default class Page extends Component {
+export default class ProfilesPage extends Component {
   constructor (props) {
     super(props)
     this.state = {
