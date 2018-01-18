@@ -30,6 +30,7 @@ class App extends Component {
     this.logIn = this.logIn.bind(this)
     this.setUser = this.setUser.bind(this)
     this.clearUser = this.clearUser.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   toLogIn () {
@@ -43,7 +44,7 @@ class App extends Component {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
         firebase.auth().onAuthStateChanged((fbuser) => {
-            if (fbuser) {
+          if (fbuser) {
             userUID = fbuser.uid
             setUser(userUID)
           } else {
@@ -77,7 +78,7 @@ class App extends Component {
     this.setState({userLocation: SIGN_UP})
   }
 
-  handleChange = (e) => {
+  handleChange (e) {
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -105,15 +106,15 @@ class App extends Component {
         itemsRef.child(response.uid).set(item, onComplete)
       })
       .catch((error) => {
-          const errorCode = error.code
-          const errorMessage = error.message
+        const errorCode = error.code
+        const errorMessage = error.message
         console.log('catch ran', errorCode, errorMessage)
-        }
+      }
       )
     let userUID
     // const setUser = this.setUser // I think the arrow function does this.
     firebase.auth().onAuthStateChanged((fbuser) => {
-        if (fbuser) {
+      if (fbuser) {
         userUID = fbuser.uid
         this.setUser(userUID)
       } else {
@@ -142,18 +143,18 @@ class App extends Component {
       )
     } else if (this.state.userLocation === SIGN_UP) {
       return (
-        <SignUp 
+        <SignUp
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
         />
       )
     } else if (this.state.userLocation === PROFILES) {
       return (
-          <ProfilesPage
-            logIn={this.toLogIn}
-            user={this.state.user}
-            clearUser={this.clearUser}
-          />
+        <ProfilesPage
+          logIn={this.toLogIn}
+          user={this.state.user}
+          clearUser={this.clearUser}
+        />
       )
     }
   }
