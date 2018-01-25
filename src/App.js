@@ -6,6 +6,11 @@ import LogInPage from './LogInPage.js'
 import SignUp from './SignUp.js'
 import firebase from './firebase.js'
 
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+import * as actions from './actions.js'
+
 const LANDING = 'landing'
 const LOG_IN = 'login'
 const SIGN_UP = 'signup'
@@ -129,6 +134,8 @@ class App extends Component {
 
   render () {
     if (this.state.userLocation === LANDING) {
+      console.log('redux user', this.props.user)
+      console.log('redux userLocation', this.props.userLocation)
       return (
         <LandingPage
           toLogIn={this.toLogIn}
@@ -162,4 +169,17 @@ class App extends Component {
   }
 }
 
-export default App
+function mapStateToProps (state, prop) {
+  return {
+    user: state.user,
+    userLocation: state.userLocation
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+      action: bindActionCreators(actions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
