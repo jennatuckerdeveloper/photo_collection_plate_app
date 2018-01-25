@@ -1,3 +1,28 @@
+This app uses Firebase. 
+On your Firebase dashboard, choose 'Add Firebase to your web app."
+A pop-up will appear with code to include in your app.  
+
+In src directory, create a firebase.js file and paste the text.  
+
+It will have the following format:
+
+import firebase from 'firebase'
+
+  const config = {
+     apiKey: "AIzaSyDblTESEB1SbAVkpy2q39DI2OHphL2-Jxw",
+    authDomain: "fun-with-friends.firebaseapp.com",
+    databaseURL: "https://fun-with-friends.firebaseio.com",
+    projectId: "fun-with-friend",
+    storageBucket: "fun-with-friends.appspot.com",
+    messagingSenderId: "144750278413"
+  };
+  firebase.initializeApp(config);
+
+export default firebase
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
