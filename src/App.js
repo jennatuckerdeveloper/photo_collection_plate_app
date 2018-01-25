@@ -29,17 +29,12 @@ class App extends Component {
       password: '',
       avatar: ''
     }
-    this.toLogIn = this.toLogIn.bind(this)
     this.toSignUp = this.toSignUp.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.logIn = this.logIn.bind(this)
     this.setUser = this.setUser.bind(this)
     this.clearUser = this.clearUser.bind(this)
     this.handleChange = this.handleChange.bind(this)
-  }
-
-  toLogIn () {
-    this.setState({userLocation: LOG_IN})
   }
 
   logIn (e) {
@@ -131,64 +126,63 @@ class App extends Component {
   }
 
   render () {
-    if (this.state.userLocation === LANDING) {
-      console.log('redux user', this.props.user)
-      console.log('redux userLocation', this.props.userLocation)
-      console.log('redux firstName', this.props.firstName)
-      console.log('redux lastName', this.props.lastName)
-      console.log('readux email', this.props.email)
-      console.log('redux phone', this.props.phone)
-      console.log('redux password', this.props.password)
-      console.log('redux avatar', this.props.avatar)
+    console.log(this.props.userLocation)
+    switch (this.props.userLocation) {
+      case LANDING:
+        console.log('redux user', this.props.user)
+        console.log('redux userLocation', this.props.userLocation)
+        console.log('redux firstName', this.props.firstName)
+        console.log('redux lastName', this.props.lastName)
+        console.log('readux email', this.props.email)
+        console.log('redux phone', this.props.phone)
+        console.log('redux password', this.props.password)
+        console.log('redux avatar', this.props.avatar)
+        return (
+          <LandingPage
+            toLogIn={this.props.actions.toLogIn}
+            toSignUp={this.toSignUp}
+          />
+        )
+      case LOG_IN: 
+        console.log(this.props.actions.toLogIn)
+        return (
+          <LogInPage
+            toLogIn={this.toLogIn}
+            handleChange={this.handleChange}
+            logIn={this.logIn}
+          />
+        )
+      case SIGN_UP:
       return (
-        <LandingPage
-          toLogIn={this.toLogIn}
-          toSignUp={this.toSignUp}
-        />
-      )
-    } else if (this.state.userLocation === LOG_IN) {
+          <SignUp
+             handleSubmit={this.handleSubmit}
+             handleChange={this.handleChange}
+          />
+        )
+      case PROFILES:
       return (
-        <LogInPage
-          toLogIn={this.toLogIn}
-          handleChange={this.handleChange}
-          logIn={this.logIn}
-        />
-      )
-    } else if (this.state.userLocation === SIGN_UP) {
-      return (
-        <SignUp
-          handleSubmit={this.handleSubmit}
-          handleChange={this.handleChange}
-        />
-      )
-    } else if (this.state.userLocation === PROFILES) {
-      return (
-        <ProfilesPage
-          logIn={this.toLogIn}
-          user={this.state.user}
-          clearUser={this.clearUser}
-        />
-      )
+           <ProfilesPage
+              logIn={this.toLogIn}
+              user={this.state.user}
+              clearUser={this.clearUser}
+            />
+              )
+      default: 
+        console.log('no page')
+        return (
+          <div>No page</div>
+        )
     }
   }
 }
 
 function mapStateToProps (state, prop) {
-  return {
-    user: state.user,
-    userLocation: state.userLocation,
-    firstName: state.firstName,
-    lastName: state.lastName,
-    email: state.email,
-    phone: state.phone,
-    password: state.password,
-    avatar: state.avatar
-  }
+  return Object.assign({}, state)
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-      action: bindActionCreators(actions, dispatch)
+      actions: bindActionCreators(actions, dispatch)
   }
 }
 

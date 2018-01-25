@@ -3,9 +3,10 @@
 // Give other relevant paramaters as key-value pairs.  
 // Export each one.  
 
-export const increment = () => {
+export const toLogIn = () => {
+    console.log('action toLogIn triggered')
     return {
-        type: "INCREMENT"
+        type: "TO_LOG_IN"
     }
     
 }

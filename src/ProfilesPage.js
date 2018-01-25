@@ -49,7 +49,7 @@ export default class ProfilesPage extends Component {
       .then(this.setState({users: [], pageUsers: []}))
       .then(clearUser())
       .catch(function (error) {
-        console.log('can ran on signOut', error)
+        console.log('catch ran on signOut', error)
       })
   }
 

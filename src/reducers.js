@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 const LANDING = 'landing'
+const LOG_IN = 'login'
 
 // There's one reducer for each value in state.
 // Map the corresponding action.type for all relevant actions into that reducer.
@@ -15,10 +16,10 @@ const user = (state={user: null}, action) => {
     }
 }
 
-const userLocation = (state={userLocation: LANDING}, action) => {
+const userLocation = (state=LANDING, action) => {
     switch (action.type) {
-        case 'add':
-            return Object.assign({}, state, state.user)
+        case 'TO_LOG_IN':
+            return LOG_IN
         default:
             return state
     }
