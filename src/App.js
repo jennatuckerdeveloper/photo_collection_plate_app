@@ -11,6 +11,8 @@ const LOG_IN = 'login'
 const SIGN_UP = 'signup'
 const PROFILES = 'profiles'
 
+// working in Git branch add_redux
+
 class App extends Component {
   constructor (props) {
     super(props)
