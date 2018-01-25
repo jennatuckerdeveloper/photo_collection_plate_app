@@ -16,8 +16,6 @@ const LOG_IN = 'login'
 const SIGN_UP = 'signup'
 const PROFILES = 'profiles'
 
-// working in Git branch add_redux
-
 class App extends Component {
   constructor (props) {
     super(props)
@@ -136,6 +134,12 @@ class App extends Component {
     if (this.state.userLocation === LANDING) {
       console.log('redux user', this.props.user)
       console.log('redux userLocation', this.props.userLocation)
+      console.log('redux firstName', this.props.firstName)
+      console.log('redux lastName', this.props.lastName)
+      console.log('readux email', this.props.email)
+      console.log('redux phone', this.props.phone)
+      console.log('redux password', this.props.password)
+      console.log('redux avatar', this.props.avatar)
       return (
         <LandingPage
           toLogIn={this.toLogIn}
@@ -172,7 +176,13 @@ class App extends Component {
 function mapStateToProps (state, prop) {
   return {
     user: state.user,
-    userLocation: state.userLocation
+    userLocation: state.userLocation,
+    firstName: state.firstName,
+    lastName: state.lastName,
+    email: state.email,
+    phone: state.phone,
+    password: state.password,
+    avatar: state.avatar
   }
 }
 
