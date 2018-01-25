@@ -7,10 +7,10 @@ const LOG_IN = 'login'
 // Map the corresponding action.type for all relevant actions into that reducer.
 // DO NOT MUTATE STATE.  RETURN A NEW OBJECT.  
 
-const user = (state={user: null}, action) => {
+const user = (state=null, action) => {
     switch (action.type) {
-        case 'add':
-            return Object.assign({}, state, state.user)
+        case 'placeholder':
+            return 'placeholder'
         default:
             return state
     }
@@ -25,55 +25,55 @@ const userLocation = (state=LANDING, action) => {
     }
 }
 
-const firstName = (state={firstName: 'x'}, action) => {
+const firstName = (state='x', action) => {
     switch (action.type) {
-        case 'add':
-            return Object.assign({}, state, state.firstName)
+        case 'placeholder':
+            return 'placeholder'
         default:
             return state
     }
 }
 
-const lastName = (state={lastName: 'x'}, action) => {
+const lastName = (state='x', action) => {
     switch (action.type) {
-        case 'add':
-            return Object.assign({}, state, state.lastName)
+        case 'placeholder':
+            return 'placeholder'
         default:
             return state
     }
 }
 
-const email = (state={email: 'x'}, action) => {
+const email = (state='x', action) => {
     switch (action.type) {
-        case 'add':
-            return Object.assign({}, state, state.email)
+        case 'placeholder':
+            return 'placeholder'
         default:
             return state
     }
 }
 
-const phone = (state={phone: 'x'}, action) => {
+const phone = (state='x', action) => {
     switch (action.type) {
-        case 'add':
-            return Object.assign({}, state, state.phone)
+        case 'placeholder':
+            return 'placeholder'
         default:
             return state
     }
 }
 
-const password = (state={password: 'x'}, action) => {
+const password = (state='x', action) => {
     switch (action.type) {
-        case 'add':
-            return Object.assign({}, state, state.password)
+        case 'placeholder':
+            return 'placeholder'
         default:
             return state
     }
 }
 
-const avatar = (state={avatar: 'x'}, action) => {
+const avatar = (state='x', action) => {
     switch (action.type) {
-        case 'add':
-            return Object.assign({}, state, state.avatar)
+        case 'placeholder':
+            return 'placeholder'
         default:
             return state
     }
