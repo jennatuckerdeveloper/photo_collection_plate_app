@@ -6,10 +6,6 @@ const SIGN_UP = 'signup'
 const PROFILES = 'profiles'
 const PER_PAGE = 20
 
-// There's one reducer for each value in state.
-// Map the corresponding action.type for all relevant actions into that reducer.
-// DO NOT MUTATE STATE.  RETURN A NEW OBJECT.  
-
 const user = (state=null, action) => {
     switch (action.type) {
         case 'SET_USER':

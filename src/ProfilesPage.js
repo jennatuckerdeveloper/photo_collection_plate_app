@@ -2,15 +2,6 @@ import React, {Component} from 'react'
 import firebase from './firebase.js'
 import PageButtons from './PageButtons.js'
 
-// console.log('redux user', this.props.user)
-// console.log('redux userLocation', this.props.userLocation)
-// console.log('redux firstName', this.props.firstName)
-// console.log('redux lastName', this.props.lastName)
-// console.log('readux email', this.props.email)
-// console.log('redux phone', this.props.phone)
-// console.log('redux password', this.props.password)
-// console.log('redux avatar', this.props.avatar)
-
 export default class ProfilesPage extends Component {
   constructor (props) {
     super(props)
