@@ -4,6 +4,7 @@ const LANDING = 'landing'
 const LOG_IN = 'login'
 const SIGN_UP = 'signup'
 const PROFILES = 'profiles'
+const PER_PAGE = 20
 
 // There's one reducer for each value in state.
 // Map the corresponding action.type for all relevant actions into that reducer.
@@ -33,8 +34,8 @@ const userLocation = (state=LANDING, action) => {
 
 const firstName = (state='x', action) => {
     switch (action.type) {
-        case 'placeholder':
-            return 'placeholder'
+        case 'ACCEPT_FIRST_NAME':
+            return action.entry
         default:
             return state
     }
@@ -42,8 +43,8 @@ const firstName = (state='x', action) => {
 
 const lastName = (state='x', action) => {
     switch (action.type) {
-        case 'placeholder':
-            return 'placeholder'
+        case 'ACCEPT_LAST_NAME':
+            return action.entry
         default:
             return state
     }
@@ -51,8 +52,8 @@ const lastName = (state='x', action) => {
 
 const email = (state='x', action) => {
     switch (action.type) {
-        case 'placeholder':
-            return 'placeholder'
+        case 'ACCEPT_EMAIL':
+            return action.entry
         default:
             return state
     }
@@ -60,8 +61,8 @@ const email = (state='x', action) => {
 
 const phone = (state='x', action) => {
     switch (action.type) {
-        case 'placeholder':
-            return 'placeholder'
+        case 'ACCEPT_PHONE':
+            return action.entry
         default:
             return state
     }
@@ -69,8 +70,8 @@ const phone = (state='x', action) => {
 
 const password = (state='x', action) => {
     switch (action.type) {
-        case 'placeholder':
-            return 'placeholder'
+        case 'ACCEPT_PASSWORD':
+            return action.entry
         default:
             return state
     }
@@ -78,11 +79,42 @@ const password = (state='x', action) => {
 
 const avatar = (state='x', action) => {
     switch (action.type) {
-        case 'placeholder':
-            return 'placeholder'
+        case 'ACCEPT_AVATAR':
+            return action.entry
         default:
             return state
     }
+}
+
+const currentPage = (state=1, action) => {
+    switch (action.type) {
+        case 'CHANGE_PAGE':
+            return action.newPage
+        default:
+            return state
+    }
+}
+
+const allUsers = (state=[], action) => {
+    switch (action.type) {
+        case 'ALL_PROFILES':
+            return action.users
+        default: 
+            return state
+    }
+}
+
+const pageUsers = (state=[], action) => {
+    switch (action.type) {
+        case 'PAGE_PROFILES':
+            return action.users
+        default: 
+            return state
+    }
+}
+
+const perPage = (state=PER_PAGE) => {
+    return state
 }
 
 const rootReducer = combineReducers({
@@ -93,7 +125,11 @@ const rootReducer = combineReducers({
     email,
     phone,
     password,
-    avatar
+    avatar, 
+    currentPage,
+    allUsers,
+    pageUsers,
+    perPage
 })
 
 export default rootReducer

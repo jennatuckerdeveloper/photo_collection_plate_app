@@ -40,7 +40,7 @@ class App extends Component {
     e.preventDefault()
     let userUID
     const setUser = this.setUser
-    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    firebase.auth().signInWithEmailAndPassword(this.props.email, this.props.password)
       .then(() => {
         firebase.auth().onAuthStateChanged((fbuser) => {
           if (fbuser) {
@@ -61,9 +61,6 @@ class App extends Component {
 
   setUser (userUID) {
     if (userUID) {
-      // also needs to set the state user to this userUID
-      // So do I call each action separately?  
-      // That seems wrong... because it feels like running setState more than once.
       // What's the equivalent of bringing two actions into a single setState?
       // Does that matter?
       // Will this ever turn up an asynchonicity problem?  
@@ -76,27 +73,43 @@ class App extends Component {
     }
   }
 
- clearUser () {
-    this.setState({user: null})
-  }
-
   handleChange (e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    const actionName = e.target.name
+    switch (actionName) {
+      case 'firstName':
+        this.props.actions.firstName(e)
+        break
+      case 'lastName':
+        this.props.actions.lastName(e)
+        break
+      case 'email':
+        this.props.actions.email(e)
+        break
+      case 'phone':
+        this.props.actions.phone(e)
+        break
+      case 'password':
+        this.props.actions.password(e)
+        break
+      case 'avatar':
+        this.props.actions.avatar(e)
+        break
+      default:
+        break
+    }
   }
 
   handleSubmit (e) {
     e.preventDefault()
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    firebase.auth().createUserWithEmailAndPassword(this.props.email, this.props.password)
       .then((response) => {
         const itemsRef = firebase.database().ref('users')
         const item = {
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          email: this.state.email,
-          phone: this.state.phone,
-          avatar: this.state.avatar
+          firstName: this.props.firstName,
+          lastName: this.props.lastName,
+          email: this.props.email,
+          phone: this.props.phone,
+          avatar: this.props.avatar
         }
         const onComplete = (error) => {
           if (error) {
@@ -114,7 +127,6 @@ class App extends Component {
       }
       )
     let userUID
-    // const setUser = this.setUser // I think the arrow function does this.
     firebase.auth().onAuthStateChanged((fbuser) => {
       if (fbuser) {
         userUID = fbuser.uid
@@ -124,20 +136,15 @@ class App extends Component {
         this.setUser(userUID)
       }
     })
-    this.setState({userLocation: PROFILES})
+  }
+
+  clearUser () {
+    this.props.actions.setAUser(null)
   }
 
   render () {
     switch (this.props.userLocation) {
       case LANDING:
-        console.log('redux user', this.props.user)
-        console.log('redux userLocation', this.props.userLocation)
-        console.log('redux firstName', this.props.firstName)
-        console.log('redux lastName', this.props.lastName)
-        console.log('readux email', this.props.email)
-        console.log('redux phone', this.props.phone)
-        console.log('redux password', this.props.password)
-        console.log('redux avatar', this.props.avatar)
         return (
           <LandingPage
             toLogIn={this.props.actions.toLogIn}
@@ -159,12 +166,17 @@ class App extends Component {
           />
         )
       case PROFILES:
-      console.log('redux user', this.props.user)
       return (
            <ProfilesPage
               logIn={this.toLogIn}
               user={this.props.user}
               clearUser={this.clearUser}
+              setAllProfiles={this.props.actions.setAllProfiles}
+              setPageProfiles={this.props.actions.setPageProfiles}
+              allUsers = {this.props.allUsers}
+              changePage = {this.props.actions.changePage}
+              perPage = {this.props.perPage}
+              pageUsers = {this.props.pageUsers}
             />
               )
       default: 

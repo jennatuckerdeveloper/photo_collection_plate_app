@@ -2,6 +2,15 @@ import React, {Component} from 'react'
 import firebase from './firebase.js'
 import PageButtons from './PageButtons.js'
 
+// console.log('redux user', this.props.user)
+// console.log('redux userLocation', this.props.userLocation)
+// console.log('redux firstName', this.props.firstName)
+// console.log('redux lastName', this.props.lastName)
+// console.log('readux email', this.props.email)
+// console.log('redux phone', this.props.phone)
+// console.log('redux password', this.props.password)
+// console.log('redux avatar', this.props.avatar)
+
 export default class ProfilesPage extends Component {
   constructor (props) {
     super(props)
@@ -17,7 +26,6 @@ export default class ProfilesPage extends Component {
   }
 
   componentDidMount () {
-    console.log('ProfilesPage DidMount user', this.props.user)
     if (this.props.user) {
       const usersRef = firebase.database().ref('users')
       // custom Firebase event listener on 'value' grabs info and updates when info added to db
@@ -35,10 +43,8 @@ export default class ProfilesPage extends Component {
             avatar: users[user].avatar
           })
         }
-        this.setState({
-          users: newState,
-          pageUsers: newState.slice(0, 10)
-        })
+        this.props.setAllProfiles(newState)
+        this.props.setPageProfiles(newState.slice(0,10))
       })
     }
   }
@@ -47,8 +53,11 @@ export default class ProfilesPage extends Component {
     const clearUser = this.props.clearUser
     e.preventDefault()
     firebase.auth().signOut()
-      .then(this.setState({users: [], pageUsers: []}))
-      .then(clearUser())
+      .then(()=> {
+        this.props.setAllProfiles([])
+        this.props.setPageProfiles([])
+      })
+      .then(()=> clearUser())
       .catch(function (error) {
         console.log('catch ran on signOut', error)
       })
@@ -56,21 +65,19 @@ export default class ProfilesPage extends Component {
 
   changePage (e) {
     const newPage = e.target.value
-    this.setState({currentPage: newPage})
+    this.props.changePage(newPage)
     this.generatePage(newPage)
   }
 
   generatePage (page) {
-    const start = (page - 1) * this.state.perPage
-    const end = page * this.state.perPage - 1
-    const users = this.state.users.slice()
-    const pageOfUsers = users.slice(start, end)
-    this.setState({pageUsers: pageOfUsers})
+    const start = (page - 1) * this.props.perPage
+    const end = page * this.props.perPage - 1
+    const pageOfUsers = this.props.allUsers.slice(start, end)
+    this.props.setPageProfiles(pageOfUsers)
   }
 
   render () {
-    console.log('ProfilesPage component render user', this.props.user)
-    const profiles = this.state.pageUsers.map((element) => {
+    const profiles = this.props.pageUsers.map((element) => {
       return (
         <tr key={'profile' + element.id}>
           <td>{element.firstName}</td>
@@ -87,8 +94,8 @@ export default class ProfilesPage extends Component {
         {logButton}
         <PageButtons
           changePage={this.changePage}
-          dataLength={this.state.users.length}
-          perPage={this.state.perPage}
+          dataLength={this.props.allUsers.length}
+          perPage={this.props.perPage}
         />
         <table>
           <thead>
