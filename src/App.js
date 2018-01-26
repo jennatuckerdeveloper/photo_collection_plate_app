@@ -19,16 +19,6 @@ const PROFILES = 'profiles'
 class App extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      user: null,
-      userLocation: LANDING,
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      password: '',
-      avatar: ''
-    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.logIn = this.logIn.bind(this)
     this.setUser = this.setUser.bind(this)

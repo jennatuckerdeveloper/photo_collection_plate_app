@@ -14,12 +14,6 @@ import PageButtons from './PageButtons.js'
 export default class ProfilesPage extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      users: [],
-      pageUsers: [],
-      perPage: 20,
-      currentPage: 1
-    }
     this.logOut = this.logOut.bind(this)
     this.changePage = this.changePage.bind(this)
     this.generatePage = this.generatePage.bind(this)
