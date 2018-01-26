@@ -53,11 +53,10 @@ class App extends Component {
     if (userUID) {
       // What's the equivalent of bringing two actions into a single setState?
       // Does that matter?
-      // Will this ever turn up an asynchonicity problem?  
-     
+      // Will this ever turn up an asynchonicity problem?
+
       this.props.actions.setAUser(userUID)
       this.props.actions.toProfiles()
-    
     } else {
       this.props.actions.toLogIn()
     }
@@ -149,27 +148,27 @@ class App extends Component {
           />
         )
       case SIGN_UP:
-      return (
+        return (
           <SignUp
-             handleSubmit={this.handleSubmit}
-             handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
           />
         )
       case PROFILES:
-      return (
-           <ProfilesPage
-              logIn={this.toLogIn}
-              user={this.props.user}
-              clearUser={this.clearUser}
-              setAllProfiles={this.props.actions.setAllProfiles}
-              setPageProfiles={this.props.actions.setPageProfiles}
-              allUsers = {this.props.allUsers}
-              changePage = {this.props.actions.changePage}
-              perPage = {this.props.perPage}
-              pageUsers = {this.props.pageUsers}
-            />
-              )
-      default: 
+        return (
+          <ProfilesPage
+            logIn={this.toLogIn}
+            user={this.props.user}
+            clearUser={this.clearUser}
+            setAllProfiles={this.props.actions.setAllProfiles}
+            setPageProfiles={this.props.actions.setPageProfiles}
+            allUsers={this.props.allUsers}
+            changePage={this.props.actions.changePage}
+            perPage={this.props.perPage}
+            pageUsers={this.props.pageUsers}
+          />
+        )
+      default:
         console.log('no page')
         return (
           <div>No page</div>
@@ -182,9 +181,9 @@ function mapStateToProps (state, prop) {
   return Object.assign({}, state)
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return {
-      actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(actions, dispatch)
   }
 }
 

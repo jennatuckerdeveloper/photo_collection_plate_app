@@ -29,7 +29,7 @@ export default class ProfilesPage extends Component {
           })
         }
         this.props.setAllProfiles(newState)
-        this.props.setPageProfiles(newState.slice(0,10))
+        this.props.setPageProfiles(newState.slice(0, 10))
       })
     }
   }
@@ -38,11 +38,11 @@ export default class ProfilesPage extends Component {
     const clearUser = this.props.clearUser
     e.preventDefault()
     firebase.auth().signOut()
-      .then(()=> {
+      .then(() => {
         this.props.setAllProfiles([])
         this.props.setPageProfiles([])
       })
-      .then(()=> clearUser())
+      .then(() => clearUser())
       .catch(function (error) {
         console.log('catch ran on signOut', error)
       })
