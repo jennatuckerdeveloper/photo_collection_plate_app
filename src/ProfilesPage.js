@@ -17,6 +17,7 @@ export default class ProfilesPage extends Component {
   }
 
   componentDidMount () {
+    console.log('ProfilesPage DidMount user', this.props.user)
     if (this.props.user) {
       const usersRef = firebase.database().ref('users')
       // custom Firebase event listener on 'value' grabs info and updates when info added to db
@@ -68,6 +69,7 @@ export default class ProfilesPage extends Component {
   }
 
   render () {
+    console.log('ProfilesPage component render user', this.props.user)
     const profiles = this.state.pageUsers.map((element) => {
       return (
         <tr key={'profile' + element.id}>

@@ -29,7 +29,6 @@ class App extends Component {
       password: '',
       avatar: ''
     }
-    this.toSignUp = this.toSignUp.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.logIn = this.logIn.bind(this)
     this.setUser = this.setUser.bind(this)
@@ -60,22 +59,25 @@ class App extends Component {
       })
   }
 
-  clearUser () {
-    this.setState({user: null})
-  }
-
   setUser (userUID) {
-    let nextPage
     if (userUID) {
-      nextPage = PROFILES
+      // also needs to set the state user to this userUID
+      // So do I call each action separately?  
+      // That seems wrong... because it feels like running setState more than once.
+      // What's the equivalent of bringing two actions into a single setState?
+      // Does that matter?
+      // Will this ever turn up an asynchonicity problem?  
+     
+      this.props.actions.setAUser(userUID)
+      this.props.actions.toProfiles()
+    
     } else {
-      nextPage = LOG_IN
+      this.props.actions.toLogIn()
     }
-    this.setState({user: userUID, userLocation: nextPage})
   }
 
-  toSignUp () {
-    this.setState({userLocation: SIGN_UP})
+ clearUser () {
+    this.setState({user: null})
   }
 
   handleChange (e) {
@@ -126,7 +128,6 @@ class App extends Component {
   }
 
   render () {
-    console.log(this.props.userLocation)
     switch (this.props.userLocation) {
       case LANDING:
         console.log('redux user', this.props.user)
@@ -140,14 +141,12 @@ class App extends Component {
         return (
           <LandingPage
             toLogIn={this.props.actions.toLogIn}
-            toSignUp={this.toSignUp}
+            toSignUp={this.props.actions.toSignUp}
           />
         )
-      case LOG_IN: 
-        console.log(this.props.actions.toLogIn)
+      case LOG_IN:
         return (
           <LogInPage
-            toLogIn={this.toLogIn}
             handleChange={this.handleChange}
             logIn={this.logIn}
           />
@@ -160,10 +159,11 @@ class App extends Component {
           />
         )
       case PROFILES:
+      console.log('redux user', this.props.user)
       return (
            <ProfilesPage
               logIn={this.toLogIn}
-              user={this.state.user}
+              user={this.props.user}
               clearUser={this.clearUser}
             />
               )
