@@ -3,15 +3,9 @@ import firebase from './firebase.js'
 import PageButtons from './PageButtons.js'
 
 export default class ProfilesPage extends Component {
-  constructor (props) {
-    super(props)
-    this.logOut = this.logOut.bind(this)
-    this.changePage = this.changePage.bind(this)
-    this.generatePage = this.generatePage.bind(this)
-  }
 
   componentDidMount () {
-    if (this.props.user) {
+    if (this.props.userData.userID) {
       const usersRef = firebase.database().ref('users')
       // custom Firebase event listener on 'value' grabs info and updates when info added to db
       usersRef.on('value', (snapshot) => {
@@ -34,7 +28,7 @@ export default class ProfilesPage extends Component {
     }
   }
 
-  logOut (e) {
+  logOut = (e) => {
     const clearUser = this.props.clearUser
     e.preventDefault()
     firebase.auth().signOut()
@@ -48,13 +42,13 @@ export default class ProfilesPage extends Component {
       })
   }
 
-  changePage (e) {
+  changePage = (e) => {
     const newPage = e.target.value
     this.props.changePage(newPage)
     this.generatePage(newPage)
   }
 
-  generatePage (page) {
+  generatePage = (page) => {
     const start = (page - 1) * this.props.perPage
     const end = page * this.props.perPage - 1
     const pageOfUsers = this.props.allUsers.slice(start, end)
@@ -62,6 +56,7 @@ export default class ProfilesPage extends Component {
   }
 
   render () {
+    console.log('----', this.props.userData)
     const profiles = this.props.pageUsers.map((element) => {
       return (
         <tr key={'profile' + element.id}>
@@ -73,7 +68,7 @@ export default class ProfilesPage extends Component {
         </tr>
       )
     })
-    const logButton = this.props.user ? <button onClick={this.logOut}>Log Out </button> : <button onClick={this.props.logIn}>Log In </button>
+    const logButton = this.props.userData.userID ? <button onClick={this.logOut}>Log Out </button> : <button onClick={this.props.logIn}>Log In </button>
     return (
       <div className='App'>
         {logButton}

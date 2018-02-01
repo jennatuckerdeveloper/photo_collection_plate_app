@@ -10,22 +10,11 @@ import { connect } from 'react-redux'
 
 import * as actions from './actions.js'
 
-const LANDING = 'landing'
-const LOG_IN = 'login'
-const SIGN_UP = 'signup'
-const PROFILES = 'profiles'
+import { LANDING, LOG_IN, SIGN_UP, PROFILES } from './reducers'
 
 class Main extends Component {
-  constructor (props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.logIn = this.logIn.bind(this)
-    this.setUser = this.setUser.bind(this)
-    this.clearUser = this.clearUser.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-  }
 
-  logIn (e) {
+  logIn = (e) => {
     e.preventDefault()
     let userUID
     const setUser = this.setUser
@@ -48,12 +37,8 @@ class Main extends Component {
       })
   }
 
-  setUser (userUID) {
+  setUser = (userUID) => {
     if (userUID) {
-      // What's the equivalent of bringing two actions into a single setState?
-      // Does that matter?
-      // Will this ever turn up an asynchonicity problem?
-
       this.props.actions.setAUser(userUID)
       this.props.actions.toProfiles()
     } else {
@@ -61,43 +46,21 @@ class Main extends Component {
     }
   }
 
-  handleChange (e) {
-    const actionName = e.target.name
-    switch (actionName) {
-      case 'firstName':
-        this.props.actions.firstName(e)
-        break
-      case 'lastName':
-        this.props.actions.lastName(e)
-        break
-      case 'email':
-        this.props.actions.email(e)
-        break
-      case 'phone':
-        this.props.actions.phone(e)
-        break
-      case 'password':
-        this.props.actions.password(e)
-        break
-      case 'avatar':
-        this.props.actions.avatar(e)
-        break
-      default:
-        break
-    }
+  handleChange = (e) => {
+    this.props.actions.handleNewUserInfo(e)
   }
 
-  handleSubmit (e) {
+  handleSubmit = (e) => {
     e.preventDefault()
-    firebase.auth().createUserWithEmailAndPassword(this.props.email, this.props.password)
+    firebase.auth().createUserWithEmailAndPassword(this.props.userData.email, this.props.userData.password)
       .then((response) => {
         const itemsRef = firebase.database().ref('users')
         const item = {
-          firstName: this.props.firstName,
-          lastName: this.props.lastName,
-          email: this.props.email,
-          phone: this.props.phone,
-          avatar: this.props.avatar
+          firstName: this.props.userData.firstName,
+          lastName: this.props.userData.lastName,
+          email: this.props.userData.email,
+          phone: this.props.userData.phone,
+          avatar: this.props.userData.avatar
         }
         const onComplete = (error) => {
           if (error) {
@@ -126,11 +89,13 @@ class Main extends Component {
     })
   }
 
-  clearUser () {
+  clearUser = () => {
     this.props.actions.setAUser(null)
   }
 
   render () {
+    console.log(this.props.userData)
+
     switch (this.props.userLocation) {
       case LANDING:
         return (
@@ -157,7 +122,7 @@ class Main extends Component {
         return (
           <ProfilesPage
             logIn={this.toLogIn}
-            user={this.props.user}
+            userData={this.props.userData}
             clearUser={this.clearUser}
             setAllProfiles={this.props.actions.setAllProfiles}
             setPageProfiles={this.props.actions.setPageProfiles}

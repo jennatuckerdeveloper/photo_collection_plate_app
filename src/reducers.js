@@ -1,15 +1,32 @@
 import { combineReducers } from 'redux'
 
-const LANDING = 'landing'
-const LOG_IN = 'login'
-const SIGN_UP = 'signup'
-const PROFILES = 'profiles'
+export const LANDING = 'landing'
+export const LOG_IN = 'login'
+export const SIGN_UP = 'signup'
+export const PROFILES = 'profiles'
 const PER_PAGE = 20
 
-const user = (state = null, action) => {
+const initialUserData = {
+  userID: null,
+  firstName: null,
+  lastName:  null,
+  email: null,
+  phone:  null,
+  password:  null,
+  avatar:  null
+
+}
+
+
+// remember to return a new object 
+const userData = (state = initialUserData, action) => {
   switch (action.type) {
     case 'SET_USER':
-      return action.UID
+      return Object.assign({},state,{userID: action.UID})
+    case 'NEW_USER_INFO':
+      let newState = {}
+      newState[action.field] = action.entry
+      return Object.assign({}, state, newState)
     default:
       return state
   }
@@ -23,60 +40,6 @@ const userLocation = (state = LANDING, action) => {
       return SIGN_UP
     case 'TO_PROFILES':
       return PROFILES
-    default:
-      return state
-  }
-}
-
-const firstName = (state = 'x', action) => {
-  switch (action.type) {
-    case 'ACCEPT_FIRST_NAME':
-      return action.entry
-    default:
-      return state
-  }
-}
-
-const lastName = (state = 'x', action) => {
-  switch (action.type) {
-    case 'ACCEPT_LAST_NAME':
-      return action.entry
-    default:
-      return state
-  }
-}
-
-const email = (state = 'x', action) => {
-  switch (action.type) {
-    case 'ACCEPT_EMAIL':
-      return action.entry
-    default:
-      return state
-  }
-}
-
-const phone = (state = 'x', action) => {
-  switch (action.type) {
-    case 'ACCEPT_PHONE':
-      return action.entry
-    default:
-      return state
-  }
-}
-
-const password = (state = 'x', action) => {
-  switch (action.type) {
-    case 'ACCEPT_PASSWORD':
-      return action.entry
-    default:
-      return state
-  }
-}
-
-const avatar = (state = 'x', action) => {
-  switch (action.type) {
-    case 'ACCEPT_AVATAR':
-      return action.entry
     default:
       return state
   }
@@ -114,14 +77,8 @@ const perPage = (state = PER_PAGE) => {
 }
 
 const rootReducer = combineReducers({
-  user,
+  userData,
   userLocation,
-  firstName,
-  lastName,
-  email,
-  phone,
-  password,
-  avatar,
   currentPage,
   allUsers,
   pageUsers,

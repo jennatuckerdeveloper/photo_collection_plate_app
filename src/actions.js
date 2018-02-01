@@ -1,62 +1,42 @@
+export const TO_LOG_IN = 'TO_LOG_IN'
+export const TO_SIGN_UP = 'TO_SIGN_UP'
+export const TO_PROFILES = 'TO_PROFILES'
+export const SET_USER = 'SET_USER'
+export const ACCEPT_FIRST_NAME = 'ACCEPT_FIRST_NAME'
+export const ACCEPT_LAST_NAME = 'ACCEPT_LAST_NAME'
+export const ACCEPT_EMAIL = 'ACCEPT_EMAIL'
+
+
 export const toLogIn = () => {
   return {
-    type: 'TO_LOG_IN'
+    type: TO_LOG_IN
   }
 }
 
 export const toSignUp = () => {
   return {
-    type: 'TO_SIGN_UP'
+    type: TO_SIGN_UP
   }
 }
 
 export const toProfiles = () => {
   return {
-    type: 'TO_PROFILES'
+    type: TO_PROFILES
   }
 }
 
 export const setAUser = (UID) => {
   return {
-    type: 'SET_USER',
+    type: SET_USER,
     UID
   }
 }
 
-export const firstName = (e) => {
+export const handleNewUserInfo = (event) => {
   return {
-    type: 'ACCEPT_FIRST_NAME',
-    entry: e.target.value
-  }
-}
-export const lastName = (e) => {
-  return {
-    type: 'ACCEPT_LAST_NAME',
-    entry: e.target.value
-  }
-}
-export const email = (e) => {
-  return {
-    type: 'ACCEPT_EMAIL',
-    entry: e.target.value
-  }
-}
-export const phone = (e) => {
-  return {
-    type: 'ACCEPT_PHONE',
-    entry: e.target.value
-  }
-}
-export const password = (e) => {
-  return {
-    type: 'ACCEPT_PASSWORD',
-    entry: e.target.value
-  }
-}
-export const avatar = (e) => {
-  return {
-    type: 'ACCEPT_AVATAR',
-    entry: e.target.value
+    type: 'NEW_USER_INFO',
+    field: event.target.name,
+    entry: event.target.value
   }
 }
 
