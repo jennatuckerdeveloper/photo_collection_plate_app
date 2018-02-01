@@ -13,13 +13,18 @@ import * as actions from './actions.js'
 import { LANDING, LOG_IN, SIGN_UP, PROFILES } from './reducers'
 
 class Main extends Component {
-
-  logIn = (e) => {
+  constructor (props) {
+    super(props)
+    this.logIn = this.logIn.bind(this)
+  }
+  logIn (e) {
     e.preventDefault()
     let userUID
     const setUser = this.setUser
-    firebase.auth().signInWithEmailAndPassword(this.props.email, this.props.password)
-      .then(() => {
+    firebase.auth().signInWithEmailAndPassword(this.props.userData.email, this.props.userData.password)
+      .then((user) => {
+        console.log(user)
+        console.log('Then')
         firebase.auth().onAuthStateChanged((fbuser) => {
           if (fbuser) {
             userUID = fbuser.uid
@@ -30,10 +35,12 @@ class Main extends Component {
           }
         })
       })
-      .catch(function (error) {
+      .catch( (error) => {
+        console.log('Catch')
         const errorCode = error.code
         const errorMessage = error.message
         console.log('catch ran on logIn', errorCode, errorMessage)
+        // this.props.actions.reportError(error)
       })
   }
 
@@ -50,7 +57,7 @@ class Main extends Component {
     this.props.actions.handleNewUserInfo(e)
   }
 
-  handleSubmit = (e) => {
+  createNewUser = (e) => {
     e.preventDefault()
     firebase.auth().createUserWithEmailAndPassword(this.props.userData.email, this.props.userData.password)
       .then((response) => {
@@ -65,6 +72,7 @@ class Main extends Component {
         const onComplete = (error) => {
           if (error) {
             console.log('Operation failed')
+            // this.props.actions.reportError(error)
           } else {
             console.log(' Operation completed')
           }
@@ -94,7 +102,6 @@ class Main extends Component {
   }
 
   render () {
-    console.log(this.props.userData)
 
     switch (this.props.userLocation) {
       case LANDING:
@@ -109,13 +116,15 @@ class Main extends Component {
           <LogInPage
             handleChange={this.handleChange}
             logIn={this.logIn}
+            // errorReport={this.props.errorReport}
           />
         )
       case SIGN_UP:
         return (
           <SignUp
-            handleSubmit={this.handleSubmit}
+            handleSubmit={this.createNewUser}
             handleChange={this.handleChange}
+            // errorReport={this.props.errorReport}
           />
         )
       case PROFILES:
@@ -130,6 +139,7 @@ class Main extends Component {
             changePage={this.props.actions.changePage}
             perPage={this.props.perPage}
             pageUsers={this.props.pageUsers}
+            // errorReport={this.props.errorReport}
           />
         )
       default:

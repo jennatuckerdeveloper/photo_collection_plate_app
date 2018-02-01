@@ -39,6 +39,7 @@ export default class ProfilesPage extends Component {
       .then(() => clearUser())
       .catch(function (error) {
         console.log('catch ran on signOut', error)
+        // this.props.actions.reportError(error)
       })
   }
 
@@ -56,7 +57,6 @@ export default class ProfilesPage extends Component {
   }
 
   render () {
-    console.log('----', this.props.userData)
     const profiles = this.props.pageUsers.map((element) => {
       return (
         <tr key={'profile' + element.id}>
@@ -71,6 +71,7 @@ export default class ProfilesPage extends Component {
     const logButton = this.props.userData.userID ? <button onClick={this.logOut}>Log Out </button> : <button onClick={this.props.logIn}>Log In </button>
     return (
       <div className='App'>
+        <div className="error">{this.props.errorReport}</div>
         {logButton}
         <PageButtons
           changePage={this.changePage}
