@@ -3,7 +3,6 @@ import firebase from './firebase.js'
 import PageButtons from './PageButtons.js'
 
 export default class ProfilesPage extends Component {
-
   componentDidMount () {
     if (this.props.userData.userID) {
       const usersRef = firebase.database().ref('users')
@@ -71,7 +70,7 @@ export default class ProfilesPage extends Component {
     const logButton = this.props.userData.userID ? <button onClick={this.logOut}>Log Out </button> : <button onClick={this.props.logIn}>Log In </button>
     return (
       <div className='App'>
-        <div className="error">{this.props.errorReport}</div>
+        <div className='error'>{this.props.errorReport}</div>
         {logButton}
         <PageButtons
           changePage={this.changePage}

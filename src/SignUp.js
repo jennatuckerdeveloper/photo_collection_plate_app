@@ -19,7 +19,7 @@ export default class SignUp extends Component {
           <input name='avatar' id='avatar' type='text' placeholder='Try dropping a new image here or click to select file to upload.' onChange={this.props.handleChange} />
           <button>Sign up</button>
         </form>
-        <div className="error">{this.props.errorReport}</div>
+        <div className='error'>{this.props.errorReport}</div>
       </div>
     )
   }

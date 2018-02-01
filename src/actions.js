@@ -8,7 +8,6 @@ export const PAGE_PROFILES = 'PAGE_PROFILES'
 export const CHANGE_PAGE = 'CHANGE_PAGE'
 // export const REPORT_ERROR = 'REPORT_ERROR'
 
-
 export const toLogIn = () => {
   return {
     type: TO_LOG_IN

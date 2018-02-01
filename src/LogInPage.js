@@ -11,7 +11,7 @@ export default class LogInPage extends Component {
           <input name='password' id='password' type='password' placeholder='Enter password' onChange={this.props.handleChange} />
           <button onClick={this.props.logIn}>Log In</button>
         </form>
-        <div className="error">{this.props.errorReport}</div>
+        <div className='error'>{this.props.errorReport}</div>
       </div>
     )
   }

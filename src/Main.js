@@ -13,11 +13,7 @@ import * as actions from './actions.js'
 import { LANDING, LOG_IN, SIGN_UP, PROFILES } from './reducers'
 
 class Main extends Component {
-  constructor (props) {
-    super(props)
-    this.logIn = this.logIn.bind(this)
-  }
-  logIn (e) {
+  logIn = (e) => {
     e.preventDefault()
     let userUID
     const setUser = this.setUser
@@ -35,7 +31,7 @@ class Main extends Component {
           }
         })
       })
-      .catch( (error) => {
+      .catch((error) => {
         console.log('Catch')
         const errorCode = error.code
         const errorMessage = error.message
@@ -102,7 +98,6 @@ class Main extends Component {
   }
 
   render () {
-
     switch (this.props.userLocation) {
       case LANDING:
         return (

@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
-import { TO_LOG_IN, TO_SIGN_UP, TO_PROFILES, SET_USER, 
+import { TO_LOG_IN, TO_SIGN_UP, TO_PROFILES, SET_USER,
   NEW_USER_INFO, ALL_PROFILES, PAGE_PROFILES, CHANGE_PAGE} from './actions.js'
-
 
 export const LANDING = 'landing'
 export const LOG_IN = 'login'
@@ -12,20 +11,19 @@ const PER_PAGE = 20
 const initialUserData = {
   userID: null,
   firstName: null,
-  lastName:  null,
+  lastName: null,
   email: null,
-  phone:  null,
-  password:  null,
-  avatar:  null
+  phone: null,
+  password: null,
+  avatar: null
 
 }
 
-
-// remember to return a new object 
+// remember to return a new object
 const userData = (state = initialUserData, action) => {
   switch (action.type) {
     case SET_USER:
-      return Object.assign({},state,{userID: action.UID})
+      return Object.assign({}, state, {userID: action.UID})
     case NEW_USER_INFO:
       let newState = {}
       newState[action.field] = action.entry
@@ -87,7 +85,7 @@ const perPage = (state = PER_PAGE) => {
 //     default:
 //       return state
 //   }
-  
+
 // }
 
 const rootReducer = combineReducers({
