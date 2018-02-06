@@ -76,11 +76,12 @@ class Main extends Component {
         itemsRef.child(response.uid).set(item, onComplete)
       })
       .catch((error) => {
+        console.log('Catch')
         const errorCode = error.code
         const errorMessage = error.message
-        console.log('catch ran', errorCode, errorMessage)
-      }
-      )
+        console.log('catch ran on logIn', errorCode, errorMessage)
+        // this.props.actions.reportError(error)
+      })
     let userUID
     firebase.auth().onAuthStateChanged((fbuser) => {
       if (fbuser) {
