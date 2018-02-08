@@ -11,7 +11,6 @@ import { Fragment } from 'redux-little-router'
 import * as actions from './actions.js'
 
 class Main extends Component {
-
   logIn = (e) => {
     e.preventDefault()
     let userUID
@@ -92,10 +91,10 @@ class Main extends Component {
     console.log('Main.js', this.props.rootReducer)
     return (
       <div>
-        <Fragment forRoute="/">
-        <LandingPage />
+        <Fragment forRoute='/'>
+          <LandingPage />
         </Fragment>
-        <Fragment forRoute="/login">
+        <Fragment forRoute='/login'>
           <LogInPage
             handleChange={this.handleChange}
             logIn={this.logIn}
@@ -103,15 +102,15 @@ class Main extends Component {
             // errorReport={this.props.errorReport}
           />
         </Fragment>
-        <Fragment forRoute="/signup">
-        <SignUp
-              handleChange={this.handleChange}
-              createNewUser={this.createNewUser}
-              userData={this.props.rootReducer.userData}
-              // errorReport={this.props.errorReport}
-            />
+        <Fragment forRoute='/signup'>
+          <SignUp
+            handleChange={this.handleChange}
+            createNewUser={this.createNewUser}
+            userData={this.props.rootReducer.userData}
+            // errorReport={this.props.errorReport}
+          />
         </Fragment>
-        <Fragment forRoute="/profiles">
+        <Fragment forRoute='/profiles'>
           <ProfilesPage
             logIn={this.toLogIn}
             userData={this.props.rootReducer.userData}
