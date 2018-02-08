@@ -3,21 +3,8 @@ import firebase from './firebase.js'
 import PageButtons from './PageButtons.js'
 
 export default class ProfilesPage extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      users: [],
-      pageUsers: [],
-      perPage: 20,
-      currentPage: 1
-    }
-    this.logOut = this.logOut.bind(this)
-    this.changePage = this.changePage.bind(this)
-    this.generatePage = this.generatePage.bind(this)
-  }
-
   componentDidMount () {
-    if (this.props.user) {
+    if (this.props.userData.userID) {
       const usersRef = firebase.database().ref('users')
       // custom Firebase event listener on 'value' grabs info and updates when info added to db
       usersRef.on('value', (snapshot) => {
@@ -34,41 +21,42 @@ export default class ProfilesPage extends Component {
             avatar: users[user].avatar
           })
         }
-        this.setState({
-          users: newState,
-          pageUsers: newState.slice(0, 10)
-        })
+        this.props.setAllProfiles(newState)
+        this.props.setPageProfiles(newState.slice(0, 10))
       })
     }
   }
 
-  logOut (e) {
+  logOut = (e) => {
     const clearUser = this.props.clearUser
     e.preventDefault()
     firebase.auth().signOut()
-      .then(this.setState({users: [], pageUsers: []}))
-      .then(clearUser())
+      .then(() => {
+        this.props.setAllProfiles([])
+        this.props.setPageProfiles([])
+      })
+      .then(() => clearUser())
       .catch(function (error) {
-        console.log('can ran on signOut', error)
+        console.log('catch ran on signOut', error)
+        // this.props.actions.reportError(error)
       })
   }
 
-  changePage (e) {
+  changePage = (e) => {
     const newPage = e.target.value
-    this.setState({currentPage: newPage})
+    this.props.changePage(newPage)
     this.generatePage(newPage)
   }
 
-  generatePage (page) {
-    const start = (page - 1) * this.state.perPage
-    const end = page * this.state.perPage - 1
-    const users = this.state.users.slice()
-    const pageOfUsers = users.slice(start, end)
-    this.setState({pageUsers: pageOfUsers})
+  generatePage = (page) => {
+    const start = (page - 1) * this.props.perPage
+    const end = page * this.props.perPage - 1
+    const pageOfUsers = this.props.allUsers.slice(start, end)
+    this.props.setPageProfiles(pageOfUsers)
   }
 
   render () {
-    const profiles = this.state.pageUsers.map((element) => {
+    const profiles = this.props.pageUsers.map((element) => {
       return (
         <tr key={'profile' + element.id}>
           <td>{element.firstName}</td>
@@ -79,14 +67,15 @@ export default class ProfilesPage extends Component {
         </tr>
       )
     })
-    const logButton = this.props.user ? <button onClick={this.logOut}>Log Out </button> : <button onClick={this.props.logIn}>Log In </button>
+    const logButton = this.props.userData.userID ? <button onClick={this.logOut}>Log Out </button> : <button onClick={this.props.logIn}>Log In </button>
     return (
       <div className='App'>
+        <div className='error'>{this.props.errorReport}</div>
         {logButton}
         <PageButtons
           changePage={this.changePage}
-          dataLength={this.state.users.length}
-          perPage={this.state.perPage}
+          dataLength={this.props.allUsers.length}
+          perPage={this.props.perPage}
         />
         <table>
           <thead>
