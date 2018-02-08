@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import firebase from './firebase.js'
 import PageButtons from './PageButtons.js'
+import { Link } from 'redux-little-router'
 
 export default class ProfilesPage extends Component {
   componentDidMount () {
@@ -67,7 +68,9 @@ export default class ProfilesPage extends Component {
         </tr>
       )
     })
-    const logButton = this.props.userData.userID ? <button onClick={this.logOut}>Log Out </button> : <button onClick={this.props.logIn}>Log In </button>
+    const logOutButton = <button onClick={this.logOut}>Log Out </button>
+    const logInButton = <button><Link className='littleLink' href='/login'>Log In </Link></button>
+    const logButton = this.props.userData.userID ? logOutButton : logInButton
     return (
       <div className='App'>
         <div className='error'>{this.props.errorReport}</div>
