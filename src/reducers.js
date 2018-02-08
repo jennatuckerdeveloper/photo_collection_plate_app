@@ -1,11 +1,7 @@
-import { combineReducers } from 'redux'
-import { TO_LOG_IN, TO_SIGN_UP, TO_PROFILES, SET_USER,
-  NEW_USER_INFO, ALL_PROFILES, PAGE_PROFILES, CHANGE_PAGE} from './actions.js'
+import { combineReducers, loop, Cmd } from 'redux-loop'
+import { SET_USER, NEW_USER_INFO, ALL_PROFILES, PAGE_PROFILES, CHANGE_PAGE } from './actions.js'
+import { push } from 'redux-little-router'
 
-export const LANDING = 'landing'
-export const LOG_IN = 'login'
-export const SIGN_UP = 'signup'
-export const PROFILES = 'profiles'
 const PER_PAGE = 20
 
 const initialUserData = {
@@ -19,28 +15,18 @@ const initialUserData = {
 
 }
 
-// remember to return a new object
 const userData = (state = initialUserData, action) => {
   switch (action.type) {
     case SET_USER:
-      return Object.assign({}, state, {userID: action.UID})
+      return loop(
+        Object.assign({}, state, {userID: action.UID}),
+        Cmd.action(push('/profiles'))
+      )
+
     case NEW_USER_INFO:
-      let newState = {}
+      const newState = {}
       newState[action.field] = action.entry
       return Object.assign({}, state, newState)
-    default:
-      return state
-  }
-}
-
-const userLocation = (state = LANDING, action) => {
-  switch (action.type) {
-    case TO_LOG_IN:
-      return LOG_IN
-    case TO_SIGN_UP:
-      return SIGN_UP
-    case TO_PROFILES:
-      return PROFILES
     default:
       return state
   }
@@ -90,7 +76,6 @@ const perPage = (state = PER_PAGE) => {
 
 const rootReducer = combineReducers({
   userData,
-  userLocation,
   currentPage,
   allUsers,
   pageUsers,

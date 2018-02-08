@@ -4,7 +4,7 @@ export default class SignUp extends Component {
   render () {
     return (
       <div id='signUp'>
-        <form id='signUpInputs' onSubmit={this.props.handleSubmit}>
+        <form id='signUpInputs' onSubmit={this.props.createNewUser}>
           <label htmlFor='firstName'>First name</label>
           <input name='firstName' id='firstName' type='text' placeholder='Enter text' onChange={this.props.handleChange} />
           <label htmlFor='lastName'>Last name</label>
