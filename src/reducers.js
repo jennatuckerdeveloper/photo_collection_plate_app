@@ -1,6 +1,7 @@
 import { combineReducers, loop, Cmd } from 'redux-loop'
-import { SET_USER, NEW_USER_INFO, ALL_PROFILES, PAGE_PROFILES, CHANGE_PAGE } from './actions.js'
+import { LOG_IN, SET_USER, NEW_USER_INFO, ALL_PROFILES, PAGE_PROFILES, CHANGE_PAGE, setAUser, reportError } from './actions.js'
 import { push } from 'redux-little-router'
+import firebase from './firebase.js'
 
 const PER_PAGE = 20
 
@@ -63,23 +64,37 @@ const perPage = (state = PER_PAGE) => {
   return state
 }
 
-// const errorReport = (state = '', action) => {
-//   switch (action.type) {
-//     case REPORT_ERROR:
-//       console.log(`${action.errorCode}: ${action.errorMessage}`)
-//       return `${action.errorCode}: ${action.errorMessage}`
-//     default:
-//       return state
-//   }
-
-// }
-
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   userData,
   currentPage,
   allUsers,
   pageUsers,
   perPage
 })
+
+// Async actions
+// ---------------------------------------------------------------------------
+const login = (email, password) => {
+  return firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((user) => {
+      firebase.auth().onAuthStateChanged((fbuser) => {
+        return fbuser ? fbuser.uid : null
+      })
+    })
+}
+
+const rootReducer = (state, action) => {
+  console.log(state, action)
+  if (action.type === LOG_IN) {
+    return loop(
+      state,
+      Cmd.run(login, {
+        successActionCreator: setAUser,
+        failActionCreator: reportError,
+        args: [state.userData.email, state.userData.password]
+      }))
+  }
+  return appReducer(state, action)
+}
 
 export default rootReducer

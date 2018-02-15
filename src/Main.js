@@ -13,26 +13,7 @@ import * as actions from './actions.js'
 class Main extends Component {
   logIn = (e) => {
     e.preventDefault()
-    let userUID
-    firebase.auth().signInWithEmailAndPassword(this.props.rootReducer.userData.email, this.props.rootReducer.userData.password)
-      .then((user) => {
-        firebase.auth().onAuthStateChanged((fbuser) => {
-          if (fbuser) {
-            userUID = fbuser.uid
-            this.props.actions.setAUser(userUID)
-          } else {
-            userUID = null
-            this.props.actions.setAUser(userUID)
-          }
-        })
-      })
-      .catch((error) => {
-        console.log('Catch')
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log('catch ran on logIn', errorCode, errorMessage)
-        // this.props.actions.reportError(error)
-      })
+    this.props.actions.logIn()
   }
 
   handleChange = (e) => {
