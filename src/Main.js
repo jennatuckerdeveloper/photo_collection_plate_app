@@ -3,7 +3,6 @@ import ProfilesPage from './ProfilesPage.js'
 import LandingPage from './LandingPage.js'
 import LogInPage from './LogInPage.js'
 import SignUp from './SignUp.js'
-import firebase from './firebase.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Fragment } from 'redux-little-router'
@@ -21,51 +20,12 @@ class Main extends Component {
   }
 
   createNewUser = (e) => {
-    console.log('createNewUser')
     e.preventDefault()
-    firebase.auth().createUserWithEmailAndPassword(this.props.rootReducer.userData.email, this.props.rootReducer.userData.password)
-      .then((response) => {
-        const itemsRef = firebase.database().ref('users')
-        const item = {
-          firstName: this.props.rootReducer.userData.firstName,
-          lastName: this.props.userData.lastName,
-          email: this.props.rootReducer.userData.email,
-          phone: this.props.rootReducer.userData.phone,
-          avatar: this.props.rootReducer.userData.avatar
-        }
-        const onComplete = (error) => {
-          if (error) {
-            console.log('Operation failed')
-            // this.props.actions.reportError(error)
-          } else {
-            console.log(' Operation completed')
-          }
-        }
-        itemsRef.child(response.uid).set(item, onComplete)
-      })
-      .catch((error) => {
-        console.log('Catch')
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log('catch ran on logIn', errorCode, errorMessage)
-        // this.props.actions.reportError(error)
-      })
-    let userUID
-    firebase.auth().onAuthStateChanged((fbuser) => {
-      if (fbuser) {
-        console.log('0000')
-        userUID = fbuser.uid
-        this.props.actions.setAUser(userUID)
-      } else {
-        console.log('234234')
-        userUID = null
-        this.props.actions.setAUser(userUID)
-      }
-    })
+    this.props.actions.createNewUser()
   }
 
   clearUser = () => {
-    this.props.actions.setAUser(null)
+    this.props.actions.setUser(null)
   }
 
   render () {
