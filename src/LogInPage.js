@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 
 export default class LogInPage extends Component {
   render () {
-    console.log(this.props.userData)
     return (
       <div id='logIn' >
         <form id='logInInputs'>

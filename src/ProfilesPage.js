@@ -6,25 +6,26 @@ import { Link } from 'redux-little-router'
 export default class ProfilesPage extends Component {
   componentDidMount () {
     if (this.props.userData.userID) {
-      const usersRef = firebase.database().ref('users')
-      // custom Firebase event listener on 'value' grabs info and updates when info added to db
-      usersRef.on('value', (snapshot) => {
-        let users = snapshot.val()
-        let newState = []
-        for (let user in users) {
-          newState.push({
-            id: user,
-            firstName: users[user].firstName,
-            lastName: users[user].lastName,
-            email: users[user].email,
-            phone: users[user].phone,
-            password: users[user].password,
-            avatar: users[user].avatar
-          })
-        }
-        this.props.setAllProfiles(newState)
-        this.props.setPageProfiles(newState.slice(0, 10))
-      })
+      this.props.loadUsers()
+      // const usersRef = firebase.database().ref('users')
+      // // custom Firebase event listener on 'value' grabs info and updates when info added to db
+      // usersRef.on('value', (snapshot) => {
+      //   let users = snapshot.val()
+      //   let newState = []
+      //   for (let user in users) {
+      //     newState.push({
+      //       id: user,
+      //       firstName: users[user].firstName,
+      //       lastName: users[user].lastName,
+      //       email: users[user].email,
+      //       phone: users[user].phone,
+      //       password: users[user].password,
+      //       avatar: users[user].avatar
+      //     })
+      //   }
+      //   this.props.setAllProfiles(newState)
+      //   this.props.setPageProfiles(newState.slice(0, 10))
+      // })
     }
   }
 
@@ -57,7 +58,13 @@ export default class ProfilesPage extends Component {
   }
 
   render () {
+    console.log('passed pageUsers', this.props.pageUsers)
+    console.log(Array.isArray(this.props.pageUsers))
+    console.log(this.props.pageUsers.length)
+    // despite receiving the array, this is not able to run
+    // the elements show in the inspector, isArray is true, but the array length is 0
     const profiles = this.props.pageUsers.map((element) => {
+      console.log(element)
       return (
         <tr key={'profile' + element.id}>
           <td>{element.firstName}</td>
@@ -68,6 +75,7 @@ export default class ProfilesPage extends Component {
         </tr>
       )
     })
+    console.log('profiles divs list', profiles)
     const logOutButton = <button onClick={this.logOut}>Log Out </button>
     const logInButton = <button><Link className='littleLink' href='/login'>Log In </Link></button>
     const logButton = this.props.userData.userID ? logOutButton : logInButton

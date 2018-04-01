@@ -6,11 +6,14 @@ export const CHANGE_PAGE = 'CHANGE_PAGE'
 export const LOG_IN = 'LOG_IN'
 export const REPORT_ERROR = 'REPORT_ERROR'
 export const CREATE_USER = 'CREATE_USER'
+export const LOAD_USERS = 'LOAD_USERS'
 
 
 export const logIn = () => ({ type: LOG_IN })
 
-export const setUser = (UID) => ({ type: SET_USER, UID })
+export const setUser = (user) => {
+  return { type: SET_USER, UID: user.uid }
+}
 
 export const createNewUser = () => ({ type: CREATE_USER })
 
@@ -19,6 +22,8 @@ export const handleNewUserInfo = (event) => ({
     field: event.target.name,
     entry: event.target.value
   })
+
+export const loadUsers = () => ({type: LOAD_USERS})
 
 export const setAllProfiles = (dataList) => {
   return {

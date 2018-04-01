@@ -29,7 +29,8 @@ class Main extends Component {
   }
 
   render () {
-    console.log('Main.js', this.props.rootReducer)
+    console.log('current props are ', this.props)
+    console.log('current porps pageUsers', this.props.rootReducer.pageUsers)
     return (
       <div>
         <Fragment forRoute='/'>
@@ -56,6 +57,8 @@ class Main extends Component {
             logIn={this.toLogIn}
             userData={this.props.rootReducer.userData}
             clearUser={this.clearUser}
+            loadUsers={this.props.actions.loadUsers}
+            setUsers={this.props.actions.setUsers}
             setAllProfiles={this.props.actions.setAllProfiles}
             setPageProfiles={this.props.actions.setPageProfiles}
             allUsers={this.props.rootReducer.allUsers}
