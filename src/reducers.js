@@ -127,10 +127,10 @@ const createFBUser = async (userData) => {
 
 const loadUsers = async () => {
     console.log('loop fired loadUsers in reducers')
-    const usersRef = firebase.database().ref('users')
+    const usersRef = await firebase.database().ref('users')
     // custom Firebase event listener on 'value' grabs info and updates when info added to db
     let newState = []
-    usersRef.on('value', (snapshot) => {
+    await usersRef.on('value', (snapshot) => {
       let users = snapshot.val()
       for (let user in users) {
         newState.push({
@@ -144,6 +144,9 @@ const loadUsers = async () => {
         })
       }
     })
+    console.log('newState', newState)
+    console.log(Array.isArray(newState))
+    console.log(newState.length)
     return newState
   }
 
